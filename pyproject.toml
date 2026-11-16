@@ -1,16 +1,46 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
 [project]
 name = "simpledocbuilder"
 version = "0.1.0"
-description = "Add your description here"
+description = "A modular and simple Python library to build Microsoft Word (.docx) documents programmatically, block by block."
 readme = "README.md"
-requires-python = ">=3.13"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+    { name = "Guillaume GUGUIN", email = "guillaume.guguin@gmail.com" },
+]
+requires-python = ">=3.12"
+keywords = ["docx", "word", "document", "report", "pandas", "docxtpl"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Office/Business :: Office Suites",
+]
 dependencies = [
     "docxcompose>=1.4.0",
     "docxtpl>=0.20.2",
     "imgkit>=1.2.3",
-    "numpy>=2.3.5",
-    "pandas>=2.3.3",
-    "pillow>=12.0.0",
-    "pypandoc>=1.16.2",
-    "python-docx>=1.2.0",
+    "numpy>=2.0.0",
+    "pandas>=2.2.0",
+    "pillow>=10.0.0",
+    "pypandoc>=1.13",
+    "python-docx>=1.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/Tyrin451/SimpleDocBuilder"
+Repository = "https://github.com/Tyrin451/SimpleDocBuilder"
+Issues = "https://github.com/Tyrin451/SimpleDocBuilder/issues"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
 ]

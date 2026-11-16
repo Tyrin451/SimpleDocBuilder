@@ -35,11 +35,7 @@ except ImportError:
     IMGKIT_AVAILABLE = False
 
 # Import des utilitaires locaux
-try:
-    from simpledocbuilder.utils import eng_string, auto_crop_simple, random_name
-except ImportError:
-    # Cas où simpledocbuilder est dans le path courant
-    from utils import eng_string, auto_crop_simple, random_name
+from .utils import eng_string, auto_crop_simple, random_name
 
 # Configuration Logging
 logger = logging.getLogger("simpledocbuilder")
@@ -190,8 +186,12 @@ class DataFrameBlock(ContentBlock):
         if self.use_eng_format:
             # Compatibilité Pandas map vs applymap
             method = getattr(local_df, "map", getattr(local_df, "applymap"))
-            # Applique eng_string uniquement sur les numériques (int/float)
-            local_df = method(lambda x: eng_string(x, formating=self.formatting) if isinstance(x, (int, float)) else x)
+            # Applique eng_string uniquement sur les numériques non-booléens et non-NaN
+            local_df = method(
+                lambda x: eng_string(x, formating=self.formatting)
+                if isinstance(x, (int, float)) and not isinstance(x, bool) and pd.notna(x)
+                else x
+            )
 
         if self.template_path:
             # Mode Template
@@ -321,7 +321,6 @@ class GreatTableBlock(ContentBlock):
     width_mm: int = 150
     title: Optional[str] = None
     template_path: Optional[Union[str, Path]] = None
-    temp_dir_gen: Any = None # Nécessaire pour générer l'image temp dans le même dossier
 
     def render(self, output_path: Path, context: Dict = None) -> Path:
         if not IMGKIT_AVAILABLE:
@@ -478,11 +477,6 @@ class SimpleDocBuilder:
         
         master_doc = Document()
         composer = Composer(master_doc)
-        
-        # Indicateur pour savoir si c'est le premier document ajouté
-        # (docxcompose conseille d'append sur un master, mais si master vide, 
-        # le premier doc définit parfois les styles de base mieux que le vide)
-        is_first = True
 
         for i, block in enumerate(self.blocks):
             try:

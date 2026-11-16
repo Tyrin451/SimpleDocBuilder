@@ -16,12 +16,21 @@
 
 ## Installation
 
+```bash
+# Install from PyPI
+pip install simpledocbuilder
+# or with uv
+uv add simpledocbuilder
+```
+
+### From Source
+
 This project uses `uv` for dependency management.
 
 ```bash
 # Clone the repository
-git clone <repository-url>
-cd simpledocbuilder
+git clone https://github.com/Tyrin451/SimpleDocBuilder.git
+cd SimpleDocBuilder
 
 # Install dependencies
 uv sync
@@ -92,4 +101,4 @@ doc.add_image("photo.jpg", template_path="templates/image_container.docx")
 
 ## License
 
-[Add License Here]
+MIT License — see [LICENSE](LICENSE) for details.
